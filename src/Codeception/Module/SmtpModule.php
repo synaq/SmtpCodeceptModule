@@ -45,14 +45,14 @@ class SmtpModule extends Module implements MultiSession
         $this->client = null;
     }
 
-    public function _backupSessionData()
+    public function _backupSession()
     {
         return [
             'client'    => $this->client
         ];
     }
 
-    public function _loadSessionData($data)
+    public function _loadSession($data)
     {
         foreach ($data as $key => $val) {
             $this->$key = $val;

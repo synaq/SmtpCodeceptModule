@@ -2,6 +2,7 @@
 
 namespace Codeception\Module;
 
+use Codeception\Lib\ModuleContainer;
 use Mockery as m;
 
 /**
@@ -24,8 +25,10 @@ class SmtpModuleTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
+        /** @var ModuleContainer|m\MockInterface $container */
+        $container = \Mockery::mock('Codeception\Lib\ModuleContainer');
         $this->client = \Mockery::mock('Net_SMTP');
-        $this->module = new SmtpModule();
+        $this->module = new SmtpModule($container);
         $this->module->_setClient($this->client);
     }
 
