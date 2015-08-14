@@ -1,0 +1,23 @@
+{
+    "name": "synaq/smtp-codecept-module",
+    "description": "Codeception Module for basic SMTP email sending",
+    "require-dev": {
+        "codeception/codeception": "2.0.0-alpha",
+        "mockery/mockery": "~0.9"
+    },
+    "authors": [
+        {
+            "name": "willemv",
+            "email": "willemv@synaq.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "pear/net_smtp": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "Codeception\\Module\\": "src/Codeception/Module"
+        }
+    }
+}
