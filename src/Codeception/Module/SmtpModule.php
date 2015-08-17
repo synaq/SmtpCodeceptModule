@@ -5,6 +5,8 @@ namespace Codeception\Module;
 use Codeception\Lib\Interfaces\MultiSession;
 use Codeception\Module;
 use Codeception\TestCase;
+use Tx\Mailer\Message;
+use Tx\Mailer\SMTP;
 
 /**
  * Created by PhpStorm.
@@ -15,22 +17,21 @@ use Codeception\TestCase;
 class SmtpModule extends Module implements MultiSession
 {
     /**
-     * @var \Net_SMTP
+     * @var SMTP
      */
     private $client;
 
     public function sendEmailBySmtp($from, $to, $subject, $body)
     {
         $this->_createSmtpClient();
-        $this->client->connect();
-        $this->client->mailFrom($from);
-        $this->client->rcptTo($to);
-        $this->client->data($body, array(
-            'From' => $from,
-            'To' => $to,
-            'Subject' => $subject
-        ));
-        $this->client->disconnect();
+
+        $message = new Message();
+        $message->setFrom($from, $from);
+        $message->setTo($to, $to);
+        $message->setSubject($subject);
+        $message->setBody($body);
+
+        $this->client->send($message);
     }
 
     /**
@@ -64,7 +65,7 @@ class SmtpModule extends Module implements MultiSession
         unset($data);
     }
 
-    public function _setClient(\Net_SMTP $client)
+    public function _setClient(SMTP $client)
     {
         $this->client = $client;
     }
@@ -72,7 +73,8 @@ class SmtpModule extends Module implements MultiSession
     private function _createSmtpClient()
     {
         if (is_null($this->client)) {
-            $this->client = new \Net_SMTP($this->config['host']);
+            $this->client = new SMTP();
+            $this->client->setServer($this->config['host'], $this->config['port']);
         }
     }
 }

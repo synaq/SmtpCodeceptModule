@@ -13,7 +13,7 @@
     ],
     "minimum-stability": "dev",
     "require": {
-        "pear/net_smtp": "dev-master"
+        "txthinking/mailer": "~1.2.4"
     },
     "autoload": {
         "psr-4": {
